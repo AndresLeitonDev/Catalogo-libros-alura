@@ -7,16 +7,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "books")
-public class Libro {
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
-    private int id;
+    private Long id;
 
     @Column(name = "title")
     private String title;
@@ -25,13 +29,24 @@ public class Libro {
     private List<String> subjects;
 
     @Column(name = "authors")
+    @OneToMany
+    @JoinTable(name = "book_join_author", 
+            joinColumns = @JoinColumn(name = "book_id"), 
+            inverseJoinColumns = @JoinColumn(name = "author_id"), 
+            uniqueConstraints = {@UniqueConstraint(columnNames = { "book_id", "author_id" }) })
     private List<Autor> authors;
 
-    public int getId() {
+    @Column(name = "languages")
+    private List<String> languages;
+
+    @Column(name = "download_count")
+    private int download_count;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -59,14 +74,19 @@ public class Libro {
         this.authors = authors;
     }
 
-    /*private Autor[] translators;
-    private String[] bookshelves;
-    private String[] languages;
-    private Boolean copyright;
-    private String media_type;
-    private Formato formats;
-    private int download_count;*/
+    public List<String> getLanguages() {
+        return languages;
+    }
 
-    
+    public void setLanguages(List<String> languages) {
+        this.languages = languages;
+    }
 
+    public int getDownload_count() {
+        return download_count;
+    }
+
+    public void setDownload_count(int download_count) {
+        this.download_count = download_count;
+    } 
 }

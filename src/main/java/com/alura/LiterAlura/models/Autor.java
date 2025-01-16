@@ -1,5 +1,9 @@
 package com.alura.LiterAlura.models;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,23 +17,26 @@ public class Autor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "book_id")
-    private int id;
+    @Column(name = "author_id")
+    @JsonIgnore
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "birth_year")
+    @JsonProperty("birth_year")
     private int birthYear;
 
     @Column(name = "death_year")
+    @JsonProperty("death_year")
     private int deathYear;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,4 +63,5 @@ public class Autor {
     public void setDeathYear(int deathYear) {
         this.deathYear = deathYear;
     }
+
 }
